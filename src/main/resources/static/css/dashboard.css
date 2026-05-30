@@ -1,0 +1,26 @@
+/* Dashboard specific styling */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.widget {
+    min-height: 320px;
+}
+
+.widget.full {
+    grid-column: 1 / -1;
+    min-height: 420px;
+}
+
+.widget h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 1.2rem;
+}
+
+canvas {
+    width: 100% !important;
+    max-height: 320px;
+}

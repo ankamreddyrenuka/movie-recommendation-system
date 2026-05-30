@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineMatch AI | Compare</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div class="page-shell">
+    <header class="topbar glass">
+        <div class="brand">CineMatch AI</div>
+        <nav class="nav-links">
+            <a href="/index.html">Home</a>
+            <a href="/search.html">Search</a>
+            <a href="/recommendations.html">Recommendations</a>
+            <a href="/analytics.html">Analytics</a>
+            <a href="/favorites.html">Favorites</a>
+            <a href="/watchlist.html">Watchlist</a>
+            <a href="/compare.html">Compare</a>
+        </nav>
+        <button id="themeToggle" class="theme-button">Dark</button>
+    </header>
+
+    <main>
+        <section class="page-header glass">
+            <div>
+                <h1>Movie Comparison</h1>
+                <p>Compare two movies by rating, runtime, popularity, and release date.</p>
+            </div>
+        </section>
+
+        <section class="form-card glass">
+            <div class="input-grid">
+                <input id="compareIdA" placeholder="First Movie ID">
+                <input id="compareIdB" placeholder="Second Movie ID">
+            </div>
+            <button id="compareButton" class="primary-button">Compare</button>
+        </section>
+
+        <section id="compareResults" class="compare-grid"></section>
+    </main>
+</div>
+<script src="js/api.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/compare.js"></script>
+</body>
+</html>

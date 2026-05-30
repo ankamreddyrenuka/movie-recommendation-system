@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineMatch AI | Home</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div class="page-shell">
+    <header class="topbar glass">
+        <div class="brand">CineMatch AI</div>
+        <nav class="nav-links">
+            <a href="/index.html">Home</a>
+            <a href="/search.html">Search</a>
+            <a href="/recommendations.html">Recommendations</a>
+            <a href="/analytics.html">Analytics</a>
+            <a href="/favorites.html">Favorites</a>
+            <a href="/watchlist.html">Watchlist</a>
+            <a href="/compare.html">Compare</a>
+        </nav>
+        <button id="themeToggle" class="theme-button">Dark</button>
+    </header>
+
+    <main>
+        <section class="hero-section glass hero-gradient">
+            <div class="hero-copy">
+                <h1>CineMatch AI</h1>
+                <p>Discover movies with smart recommendations, trending insights, and cinematic analytics.</p>
+                <div class="hero-actions">
+                    <a class="primary-button" href="/search.html">Search Movies</a>
+                    <a class="secondary-button" href="/recommendations.html">Get Recommendations</a>
+                </div>
+            </div>
+            <div class="hero-card">
+                <div class="search-panel glass">
+                    <h2>Quick Search</h2>
+                    <div class="search-box">
+                        <input id="homeSearchInput" type="text" placeholder="Search for a movie...">
+                        <button id="homeSearchButton">Search</button>
+                    </div>
+                    <button id="voiceSearchButton" class="voice-button">🎙 Voice Search</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-heading">
+            <div>
+                <h2>Trending Now</h2>
+                <p>Fresh picks from TMDB and curated AI insights for your next watch.</p>
+            </div>
+        </section>
+
+        <section class="trending-grid" id="trendingGrid"></section>
+    </main>
+</div>
+<script src="js/api.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
