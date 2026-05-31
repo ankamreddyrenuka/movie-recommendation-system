@@ -12,6 +12,8 @@
     <properties>
         <java.version>21</java.version>
         <spring.boot.version>3.3.4</spring.boot.version>
+
+        <!-- Ensure app runs with mvn even if maven-wrapper is broken -->
     </properties>
 
     <dependencyManagement>
