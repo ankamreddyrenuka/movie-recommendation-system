@@ -25,11 +25,16 @@ public class DestinationEntity {
     private int recommendedDuration;
     private double rating;
     private double popularity;
+
+    private Double latitude;
+    private Double longitude;
+
     @Column(length = 1200)
     private String highlights;
 
     public DestinationEntity() {
     }
+
 
     public Long getId() {
         return id;
@@ -151,9 +156,26 @@ public class DestinationEntity {
         this.popularity = popularity;
     }
 
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
     public String getHighlights() {
         return highlights;
     }
+
 
     public void setHighlights(String highlights) {
         this.highlights = highlights;

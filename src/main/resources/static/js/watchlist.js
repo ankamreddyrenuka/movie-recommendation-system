@@ -15,7 +15,8 @@ function renderWishlistCard(item) {
                 <span>${item.priority || 'Normal'}</span>
             </div>
             <div class="card-actions">
-                <button class="secondary-button" data-delete="${item.id}">Remove</button>
+                <button class="secondary-button" data-delete="${item.id ?? item.destinationId ?? ''}">Remove</button>
+
             </div>
         </div>
     `;
@@ -29,8 +30,11 @@ async function refreshWishlist() {
         items.forEach(item => wishlistItems.appendChild(renderWishlistCard(item)));
         wishlistItems.querySelectorAll('[data-delete]').forEach(button => {
             button.addEventListener('click', async () => {
-                await Api.deleteWishlist(button.dataset.delete);
+                const id = button.dataset.delete;
+                if (!id) return;
+                await Api.deleteWishlist(id);
                 refreshWishlist();
+
             });
         });
     } catch (error) {

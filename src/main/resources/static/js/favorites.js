@@ -17,7 +17,8 @@ function renderSavedTripCard(trip) {
                 <span>${trip.recommendedDuration ? trip.recommendedDuration + ' days' : ''}</span>
             </div>
             <div class="card-actions">
-                <button class="secondary-button" data-delete="${trip.id}">Remove</button>
+                <button class="secondary-button" data-delete="${trip.id ?? trip.destinationId ?? ''}">Remove</button>
+
                 <a class="card-button" href="/destination-details.html?id=${trip.destinationId}">Details</a>
             </div>
         </div>
@@ -32,8 +33,11 @@ async function refreshSavedTrips() {
         trips.forEach(trip => savedTripsList.appendChild(renderSavedTripCard(trip)));
         savedTripsList.querySelectorAll('[data-delete]').forEach(button => {
             button.addEventListener('click', async () => {
-                await Api.deleteSavedTrip(button.dataset.delete);
+                const id = button.dataset.delete;
+                if (!id) return;
+                await Api.deleteSavedTrip(id);
                 refreshSavedTrips();
+
             });
         });
     } catch (error) {
