@@ -245,8 +245,8 @@ a {
 }
 
 .destination-card,
-.movie-card,
 .detail-card,
+
 .form-card,
 .widget,
 .compare-card,
@@ -259,7 +259,6 @@ a {
 }
 
 .destination-card img,
-.movie-card img,
 .compare-card img,
 .detail-card img {
     width: 100%;
@@ -269,20 +268,20 @@ a {
 }
 
 .destination-card-content,
-.movie-card-content,
+.destination-card-content,
 .detail-content {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.movie-card-content h3,
+.destination-card-content h3,
 .compare-card h3,
 .detail-content h1 {
     margin: 0;
 }
 
-.movie-card-content p,
+.destination-card-content p,
 .detail-content p,
 .compare-card p {
     color: var(--muted);

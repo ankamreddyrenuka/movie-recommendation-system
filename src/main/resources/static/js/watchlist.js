@@ -8,7 +8,7 @@ function renderWishlistCard(item) {
     const name = item.name || item.title || 'Unknown';
     card.innerHTML = `
         <img src="${img}" alt="${name}">
-        <div class="movie-card-content">
+<div class="destination-card-content">
             <h3>${name}</h3>
             <p>${item.notes || 'No notes'}</p>
             <div class="tag-row">

@@ -19,7 +19,7 @@ function destinationCompareCard(dest) {
     `;
 }
 
-async function compareMovies() {
+async function compareDestinations() {
     compareResults.innerHTML = '<div class="loading-card">Comparing destinations...</div>';
     try {
         const [a, b] = await Promise.all([Api.getDestination(compareIdA.value.trim()), Api.getDestination(compareIdB.value.trim())]);
@@ -42,5 +42,5 @@ async function compareMovies() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    compareButton?.addEventListener('click', compareMovies);
+    compareButton?.addEventListener('click', compareDestinations);
 });

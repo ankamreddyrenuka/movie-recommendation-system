@@ -11,7 +11,7 @@ function renderSearchResult(dest) {
     const rating = dest.rating || dest.vote_average || 'N/A';
     card.innerHTML = `
         <img src="${img}" alt="${name}">
-        <div class="movie-card-content">
+<div class="destination-card-content">
             <h3>${name}</h3>
             <p>${region}</p>
             <div class="rating-pill">⭐ ${rating}</div>

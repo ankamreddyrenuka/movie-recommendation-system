@@ -9,7 +9,7 @@ function renderSavedTripCard(trip) {
     const meta = trip.region || trip.country || '';
     card.innerHTML = `
         <img src="${img}" alt="${name}">
-        <div class="movie-card-content">
+<div class="destination-card-content">
             <h3>${name}</h3>
             <p>${meta}</p>
             <div class="tag-row">

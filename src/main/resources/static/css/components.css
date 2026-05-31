@@ -20,10 +20,10 @@
     color: var(--text);
 }
 
-.destination-card-content,
-.movie-card-content {
+.destination-card-content {
     min-height: 240px;
 }
+
 
 .detail-meta,
 .cast-list {

@@ -30,12 +30,13 @@ traveldna/
 │   └── static/
 │       ├── index.html
 │       ├── search.html
-│       ├── movie-details.html
-│       ├── recommendations.html
-│       ├── analytics.html
-│       ├── favorites.html
-│       ├── watchlist.html
+│       ├── destination-details.html
+│       ├── trip-planner.html
+│       ├── travel-analytics.html
+│       ├── saved-trips.html
+│       ├── wishlist.html
 │       ├── compare.html
+
 │       ├── css/
 │       └── js/
 └── README.md
@@ -89,10 +90,11 @@ traveldna/
 - `index.html`
 - `search.html`
 - `destination-details.html`
-- `recommendations.html`
-- `analytics.html`
-- `favorites.html` (Saved Trips)
-- `watchlist.html` (Wishlist)
+- `trip-planner.html`
+- `travel-analytics.html`
+- `saved-trips.html` (Saved Trips)
+- `wishlist.html` (Wishlist)
+
 - `compare.html`
 
 ## Features
