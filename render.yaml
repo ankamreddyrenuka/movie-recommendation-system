@@ -4,7 +4,9 @@ services:
     env: java
     plan: starter
     buildCommand: mvn clean package -DskipTests
-    startCommand: java -jar target/traveldna-1.0.0.jar
+    # Use wildcard to avoid failures if the jar name changes slightly
+    startCommand: java -jar target/*.jar
+
     autoDeploy: true
     # No external API keys required for seeded demo
     routes:
