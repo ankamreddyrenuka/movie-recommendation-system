@@ -5,4 +5,4 @@ if [ -z "$JAVA_CMD" ]; then
   JAVA_CMD=java
 fi
 DIRNAME=$(dirname "$0")
-exec "$JAVA_CMD" -jar "$DIRNAME/$MAVEN_WRAPPER_DIR/maven-wrapper.jar" "$@"
+exec "$JAVA_CMD" -Dmaven.multiModuleProjectDirectory="$DIRNAME" -cp "$DIRNAME/$MAVEN_WRAPPER_DIR/maven-wrapper.jar" org.apache.maven.wrapper.MavenWrapperMain "$@"
