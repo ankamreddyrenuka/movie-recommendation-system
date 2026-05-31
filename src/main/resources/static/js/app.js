@@ -4,15 +4,20 @@ const homeSearchInput = document.getElementById('homeSearchInput');
 const voiceSearchButton = document.getElementById('voiceSearchButton');
 
 function renderMovieCard(movie) {
+    // Adapted to destination summary fields (supports both snake_case and camelCase)
     const card = document.createElement('article');
-    card.className = 'movie-card glass';
+    card.className = 'destination-card glass';
+    const img = movie.image_url || movie.imageUrl || 'https://via.placeholder.com/400x300?text=No+Image';
+    const name = movie.name || movie.title || 'Unknown';
+    const region = movie.region || '';
+    const rating = movie.rating || movie.vote_average || 'N/A';
     card.innerHTML = `
-        <img src="${movie.poster_path || 'https://via.placeholder.com/400x600?text=No+Image'}" alt="${movie.title}">
+        <img src="${img}" alt="${name}">
         <div class="movie-card-content">
-            <h3>${movie.title}</h3>
-            <p>${movie.release_date || 'Unknown Release'}</p>
-            <div class="rating-pill">⭐ ${movie.vote_average || movie.rating || 'N/A'}</div>
-            <a class="card-button" href="/movie-details.html?id=${movie.id}">Details</a>
+            <h3>${name}</h3>
+            <p>${region}</p>
+            <div class="rating-pill">⭐ ${rating}</div>
+            <a class="card-button" href="/destination-details.html?id=${encodeURIComponent(movie.id || movie.destinationId || '')}">Details</a>
         </div>
     `;
     return card;
@@ -21,13 +26,13 @@ function renderMovieCard(movie) {
 async function loadTrending() {
     const container = document.getElementById('trendingGrid');
     if (!container) return;
-    container.innerHTML = '<div class="loading-card">Loading trending movies...</div>';
+    container.innerHTML = '<div class="loading-card">Loading trending destinations...</div>';
     try {
         const trending = await Api.getTrending();
         container.innerHTML = '';
         trending.slice(0, 12).forEach(movie => container.appendChild(renderMovieCard(movie)));
     } catch (error) {
-        container.innerHTML = `<div class="error-message">Unable to load trending movies. ${error.message}</div>`;
+        container.innerHTML = `<div class="error-message">Unable to load trending destinations. ${error.message}</div>`;
     }
 }
 
@@ -52,7 +57,7 @@ function attachHomeSearch() {
 }
 
 function applyTheme() {
-    const current = localStorage.getItem('cinematch-theme') || 'dark';
+    const current = localStorage.getItem('traveldna-theme') || 'dark';
     document.documentElement.dataset.theme = current;
     if (themeToggle) {
         themeToggle.textContent = current === 'dark' ? 'Light' : 'Dark';
@@ -62,7 +67,7 @@ function applyTheme() {
 function bindThemeButton() {
     themeToggle?.addEventListener('click', () => {
         const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-        localStorage.setItem('cinematch-theme', nextTheme);
+        localStorage.setItem('traveldna-theme', nextTheme);
         applyTheme();
     });
 }
@@ -78,38 +83,34 @@ async function renderMovieDetails() {
     const params = parseQueryString();
     const id = params.id;
     if (!id) {
-        detailsContainer.innerHTML = '<div class="error-message">No movie selected.</div>';
+        detailsContainer.innerHTML = '<div class="error-message">No destination selected.</div>';
         return;
     }
-    detailsContainer.innerHTML = '<div class="loading-card">Loading movie details...</div>';
+    detailsContainer.innerHTML = '<div class="loading-card">Loading destination details...</div>';
     try {
-        const movie = await Api.getMovie(id);
+        const dest = await Api.getDestination(id);
         detailsContainer.innerHTML = `
             <div class="detail-card glass">
-                <img src="${movie.posterPath || 'https://via.placeholder.com/400x600?text=No+Image'}" alt="${movie.title}">
+                <img src="${dest.imageUrl || dest.image_url || 'https://via.placeholder.com/400x300?text=No+Image'}" alt="${dest.name}">
                 <div class="detail-content">
-                    <h1>${movie.title}</h1>
-                    <p>${movie.overview || 'No overview available.'}</p>
+                    <h1>${dest.name}</h1>
+                    <p>${dest.description || 'No description available.'}</p>
                     <div class="tag-row">
-                        <span>${movie.releaseDate || 'Unknown'}</span>
-                        <span>⭐ ${movie.rating}</span>
-                        <span>${movie.runtime} min</span>
+                        <span>${dest.region || dest.country || 'Unknown'}</span>
+                        <span>⭐ ${dest.rating || 'N/A'}</span>
+                        <span>${dest.recommendedDuration ? dest.recommendedDuration + ' days' : ''}</span>
                     </div>
                     <div class="detail-meta">
-                        <p><strong>Director:</strong> ${movie.director || 'Unknown'}</p>
-                        <p><strong>Genres:</strong> ${movie.genres.join(', ') || 'N/A'}</p>
-                        <p><strong>Popularity:</strong> ${movie.popularity}</p>
+                        <p><strong>Travel style:</strong> ${dest.travelStyle || 'N/A'}</p>
+                        <p><strong>Budget:</strong> ${dest.budgetRange || 'N/A'}</p>
+                        <p><strong>Highlights:</strong> ${dest.highlights || 'N/A'}</p>
                     </div>
-                    <div class="cast-list">
-                        <h4>Cast</h4>
-                        <p>${movie.cast.slice(0, 6).join(', ') || 'N/A'}</p>
-                    </div>
-                    <a class="primary-button" href="${movie.trailerUrl || '#'}" target="_blank">Watch Trailer</a>
+                    <a class="primary-button" href="/" target="_self">Plan Trip</a>
                 </div>
             </div>
         `;
     } catch (error) {
-        detailsContainer.innerHTML = `<div class="error-message">Unable to load movie details. ${error.message}</div>`;
+        detailsContainer.innerHTML = `<div class="error-message">Unable to load destination details. ${error.message}</div>`;
     }
 }
 

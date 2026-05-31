@@ -1,12 +1,26 @@
-package com.cinematchai.dto;
+package com.cinematchai.model;
 
-public class RecommendationDTO {
+public class TripRecommendationResponse {
     private String destinationId;
-    private String name;
+    private String destinationName;
     private String reason;
     private double rating;
     private double popularity;
     private String imageUrl;
+    private double score;
+
+    public TripRecommendationResponse() {
+    }
+
+    public TripRecommendationResponse(String destinationId, String destinationName, String reason, double rating, double popularity, String imageUrl, double score) {
+        this.destinationId = destinationId;
+        this.destinationName = destinationName;
+        this.reason = reason;
+        this.rating = rating;
+        this.popularity = popularity;
+        this.imageUrl = imageUrl;
+        this.score = score;
+    }
 
     public String getDestinationId() {
         return destinationId;
@@ -16,12 +30,12 @@ public class RecommendationDTO {
         this.destinationId = destinationId;
     }
 
-    public String getName() {
-        return name;
+    public String getDestinationName() {
+        return destinationName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDestinationName(String destinationName) {
+        this.destinationName = destinationName;
     }
 
     public String getReason() {
@@ -54,5 +68,13 @@ public class RecommendationDTO {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 }

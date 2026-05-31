@@ -20,6 +20,7 @@
     color: var(--text);
 }
 
+.destination-card-content,
 .movie-card-content {
     min-height: 240px;
 }

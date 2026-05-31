@@ -1,30 +1,36 @@
-const recommendationMovieId = document.getElementById('recommendationMovieId');
+const recommendationDestinationId = document.getElementById('recommendationDestinationId');
 const recommendButton = document.getElementById('recommendButton');
 const recommendationResults = document.getElementById('recommendationResults');
 
-function renderRecommendationCard(movie) {
+function renderRecommendationCard(item) {
     const card = document.createElement('article');
-    card.className = 'movie-card glass';
+    card.className = 'destination-card glass';
+    const img = item.imageUrl || item.image_url || 'https://via.placeholder.com/400x300?text=No+Image';
+    const name = item.destinationName || item.name || 'Unknown';
+    const reason = item.reason || '';
+    const score = typeof item.score === 'number' ? item.score.toFixed(1) : (item.score || 'N/A');
+    const popularity = item.popularity ? Math.round(item.popularity) : 'N/A';
+
     card.innerHTML = `
-        <img src="${movie.posterPath || 'https://via.placeholder.com/400x600?text=No+Image'}" alt="${movie.title}">
-        <div class="movie-card-content">
-            <h3>${movie.title}</h3>
-            <p>${movie.reason}</p>
+        <img src="${img}" alt="${name}">
+        <div class="card-content">
+            <h3>${name}</h3>
+            <p>${reason}</p>
             <div class="tag-row">
-                <span>Score: ${movie.rating.toFixed(1)}</span>
-                <span>Popularity: ${movie.popularity.toFixed(0)}</span>
+                <span>Score: ${score}</span>
+                <span>Popularity: ${popularity}</span>
             </div>
-            <a class="card-button" href="/movie-details.html?id=${movie.movieId}">View Details</a>
+            <a class="card-button" href="/destination-details.html?id=${encodeURIComponent(item.destinationId || item.id || '')}">View Details</a>
         </div>
     `;
     return card;
 }
 
-async function loadRecommendations(movieId) {
+async function loadRecommendations(destinationId) {
     recommendationResults.innerHTML = '<div class="loading-card">Generating recommendations...</div>';
     try {
-        const data = await Api.getRecommendations(movieId);
-        if (!data.length) {
+        const data = await Api.getRecommendations(destinationId);
+        if (!data || !data.length) {
             recommendationResults.innerHTML = '<div class="empty-state">No recommendations available.</div>';
             return;
         }
@@ -36,8 +42,9 @@ async function loadRecommendations(movieId) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    recommendButton.addEventListener('click', () => {
-        const id = recommendationMovieId.value.trim();
+    recommendButton?.addEventListener('click', () => {
+        const id = recommendationDestinationId.value.trim();
         if (id) loadRecommendations(id);
     });
 });
+

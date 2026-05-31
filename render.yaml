@@ -1,15 +1,11 @@
 services:
   - type: web_service
-    name: cinematch-ai
+    name: traveldna
     env: java
     plan: starter
     buildCommand: mvn clean package -DskipTests
-    startCommand: java -jar target/movie-recommendation-system-1.0.0.jar
+    startCommand: java -jar target/traveldna-1.0.0.jar
     autoDeploy: true
-    envVars:
-      - key: TMDB_API_KEY
-        generator: secret
-      - key: OMDB_API_KEY
-        generator: secret
+    # No external API keys required for seeded demo
     routes:
       - type: web

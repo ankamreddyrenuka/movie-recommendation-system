@@ -1,7 +1,7 @@
 package com.cinematchai.controller;
 
 import com.cinematchai.service.AnalyticsService;
-import com.cinematchai.service.MovieService;
+import com.cinematchai.service.TravelService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,16 +15,16 @@ import java.util.Map;
 public class AnalyticsController {
 
     private final AnalyticsService analyticsService;
-    private final MovieService movieService;
+    private final TravelService travelService;
 
-    public AnalyticsController(AnalyticsService analyticsService, MovieService movieService) {
+    public AnalyticsController(AnalyticsService analyticsService, TravelService travelService) {
         this.analyticsService = analyticsService;
-        this.movieService = movieService;
+        this.travelService = travelService;
     }
 
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAnalytics() {
-        List<Map<String, Object>> trending = movieService.getTrendingMovies();
+        List<Map<String, Object>> trending = travelService.getTrendingDestinations();
         return ResponseEntity.ok(analyticsService.buildAnalytics(trending));
     }
 }

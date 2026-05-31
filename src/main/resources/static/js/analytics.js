@@ -12,20 +12,21 @@ function renderChart(canvas, config) {
 async function loadAnalytics() {
     try {
         const analytics = await Api.getAnalytics();
-        const genreLabels = Object.keys(analytics.genreDistribution || {});
-        const genreValues = Object.values(analytics.genreDistribution || {});
+        // tags -> tagDistribution
+        const tagLabels = Object.keys(analytics.tagDistribution || analytics.genreDistribution || {});
+        const tagValues = Object.values(analytics.tagDistribution || analytics.genreDistribution || {});
         const ratingLabels = Object.keys(analytics.ratingsHistogram || {});
         const ratingValues = Object.values(analytics.ratingsHistogram || {});
         const popularityValues = analytics.popularity || [];
-        const topMovies = analytics.topMovies || [];
+        const topDestinations = analytics.topMovies || analytics.topDestinations || [];
         const yearLabels = Object.keys(analytics.releaseYearTrend || {});
         const yearValues = Object.values(analytics.releaseYearTrend || {});
 
         renderChart(genreCanvas, {
             type: 'doughnut',
             data: {
-                labels: genreLabels,
-                datasets: [{ data: genreValues, backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#f97316', '#22c55e'] }]
+                labels: tagLabels,
+                datasets: [{ data: tagValues, backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#f97316', '#22c55e'] }]
             }
         });
 
@@ -50,8 +51,8 @@ async function loadAnalytics() {
         renderChart(topMoviesCanvas, {
             type: 'bar',
             data: {
-                labels: topMovies.map(movie => movie.title),
-                datasets: [{ label: 'Popularity', data: topMovies.map(movie => movie.popularity), backgroundColor: '#a78bfa' }]
+                labels: topDestinations.map(d => d.name || d.title),
+                datasets: [{ label: 'Popularity', data: topDestinations.map(d => d.popularity), backgroundColor: '#a78bfa' }]
             },
             options: { indexAxis: 'y', scales: { x: { beginAtZero: true } } }
         });

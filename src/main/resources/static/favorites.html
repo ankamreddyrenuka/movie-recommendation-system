@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineMatch AI | Favorites</title>
+    <title>TravelDNA | Saved Trips</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
@@ -11,14 +11,14 @@
 <body>
 <div class="page-shell">
     <header class="topbar glass">
-        <div class="brand">CineMatch AI</div>
+        <div class="brand">TravelDNA</div>
         <nav class="nav-links">
             <a href="/index.html">Home</a>
             <a href="/search.html">Search</a>
             <a href="/recommendations.html">Recommendations</a>
             <a href="/analytics.html">Analytics</a>
-            <a href="/favorites.html">Favorites</a>
-            <a href="/watchlist.html">Watchlist</a>
+            <a href="/favorites.html">Saved Trips</a>
+            <a href="/watchlist.html">Wishlist</a>
             <a href="/compare.html">Compare</a>
         </nav>
         <button id="themeToggle" class="theme-button">Dark</button>
@@ -27,22 +27,22 @@
     <main>
         <section class="page-header glass">
             <div>
-                <h1>Favorites</h1>
-                <p>Manage your list of saved movies and keep your next watchlist curated.</p>
+                <h1>Saved Trips</h1>
+                <p>Manage your saved trips and plan your next adventure.</p>
             </div>
         </section>
 
         <section class="form-card glass">
-            <h3>Add to Favorites</h3>
+            <h3>Add Saved Trip</h3>
             <div class="input-grid">
-                <input id="favoriteMovieId" placeholder="Movie ID">
-                <input id="favoriteTitle" placeholder="Title">
-                <input id="favoritePoster" placeholder="Poster URL">
-                <input id="favoriteGenres" placeholder="Genres (comma-separated)">
+                <input id="favoriteDestinationId" placeholder="Destination ID">
+                <input id="favoriteTitle" placeholder="Name">
+                <input id="favoritePoster" placeholder="Image URL">
+                <input id="favoriteGenres" placeholder="Tags (comma-separated)">
                 <input id="favoriteRating" placeholder="Rating" type="number" step="0.1">
-                <input id="favoriteRelease" placeholder="Release Date">
+                <input id="favoriteRelease" placeholder="Recommended Duration (days)">
             </div>
-            <button id="saveFavorite" class="primary-button">Save Favorite</button>
+            <button id="saveFavorite" class="primary-button">Save Trip</button>
         </section>
 
         <section class="results-grid" id="favoritesList"></section>

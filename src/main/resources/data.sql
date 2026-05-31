@@ -1,0 +1,2 @@
+-- Sample seed data will be inserted via DataLoader Java component.
+-- DataLoader will auto-populate 50 sample destinations at application startup.

@@ -3,11 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.cinematchai</groupId>
-    <artifactId>movie-recommendation-system</artifactId>
+    <artifactId>traveldna</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
-    <name>CineMatch AI</name>
-    <description>Movie Recommendation and Analytics Platform</description>
+    <name>TravelDNA</name>
+    <description>AI Powered Personalized Travel Planner</description>
 
     <properties>
         <java.version>21</java.version>
@@ -56,10 +56,12 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.15.0</version>
                 <configuration>
                     <release>${java.version}</release>
                 </configuration>

@@ -1,9 +1,9 @@
-# CineMatch AI – Movie Recommendation & Analytics Platform
+# TravelDNA – AI Powered Personalized Travel Planner
 
 ## Project Overview
-CineMatch AI is a production-ready movie recommendation and analytics platform built with a pure frontend using HTML, CSS, and vanilla JavaScript, and a Java 21 Spring Boot backend with REST APIs and layered architecture.
+TravelDNA is an AI-powered personalized travel planner and discovery platform. It pairs a lightweight vanilla-JS frontend with a Java 21 Spring Boot backend (Maven) and an H2 datastore for demo purposes.
 
-The platform offers search, trending discovery, AI-generated recommendation insights, favorites management, watchlist CRUD, analytics dashboards, comparison tools, and responsive dark/light glassmorphism design.
+The platform offers destination search, trending discovery, AI trip recommendations, saved trips (favorites), wishlist management, analytics dashboards, destination comparison, and a responsive glass UI.
 
 ## Architecture
 - Frontend: HTML, CSS, Vanilla JavaScript, Fetch API, DOM Manipulation
@@ -13,7 +13,7 @@ The platform offers search, trending discovery, AI-generated recommendation insi
 
 ## Folder Structure
 ```
-movie-recommendation-system/
+traveldna/
 ├── pom.xml
 ├── render.yaml
 ├── src/main/java/com/cinematchai/
@@ -42,35 +42,33 @@ movie-recommendation-system/
 ```
 
 ## API Documentation
-### Movie Endpoints
-- `GET /api/movies/search?query={query}`
-- `GET /api/movies/{id}`
-- `GET /api/movies/trending`
+### Destination Endpoints
+- `GET /api/destinations/search?query={query}`
+- `GET /api/destinations/{id}`
+- `GET /api/destinations/trending`
 
-### Recommendation Endpoint
-- `GET /api/recommendations/{movieId}`
+### Planner / Recommendations
+- `GET /api/planner/recommendations/{destinationId}`
 
 ### Analytics Endpoint
 - `GET /api/analytics`
 
-### Favorites CRUD
-- `POST /api/favorites`
-- `GET /api/favorites`
-- `PUT /api/favorites/{id}`
-- `DELETE /api/favorites/{id}`
+### Saved Trips (favorites) CRUD
+- `POST /api/saved-trips`
+- `GET /api/saved-trips`
+- `PUT /api/saved-trips/{id}`
+- `DELETE /api/saved-trips/{id}`
 
-### Watchlist CRUD
-- `POST /api/watchlist`
-- `GET /api/watchlist`
-- `PUT /api/watchlist/{id}`
-- `DELETE /api/watchlist/{id}`
+### Wishlist CRUD
+- `POST /api/wishlist`
+- `GET /api/wishlist`
+- `PUT /api/wishlist/{id}`
+- `DELETE /api/wishlist/{id}`
 
 ## Setup Instructions
 1. Install Java 21 and Maven.
 2. Clone or open the repository.
-3. Set environment variables:
-   - `TMDB_API_KEY`
-   - `OMDB_API_KEY` (optional fallback)
+3. No external API keys are required for the demo seed data. If you integrate external providers, set their keys here.
 4. Build the project:
    ```bash
    mvn clean install
@@ -84,30 +82,27 @@ movie-recommendation-system/
 ## Render Deployment Steps
 1. Add `render.yaml` to the repository.
 2. Create a new Render Web Service.
-3. Link the GitHub repository.
-4. Set environment secrets on Render:
-   - `TMDB_API_KEY`
-   - `OMDB_API_KEY`
-5. Deploy.
+3. Link the GitHub repository and set any required environment variables for external integrations.
+4. Deploy.
 
 ## Frontend Pages
 - `index.html`
 - `search.html`
-- `movie-details.html`
+- `destination-details.html`
 - `recommendations.html`
 - `analytics.html`
-- `favorites.html`
-- `watchlist.html`
+- `favorites.html` (Saved Trips)
+- `watchlist.html` (Wishlist)
 - `compare.html`
 
 ## Features
-- Movie search with poster, title, genre hints, rating, release date, and overview
-- Movie details with cast, runtime, director, trailer, ratings, and popularity
-- Trending movies dashboard built with DOM rendering
-- Recommendation engine using genre, rating, and popularity similarity
-- Favorites CRUD powered by H2 database
-- Watchlist CRUD with watched/unwatched status
-- Movie comparison view
+- Destination search with images, region hints, popularity, budget, and overview
+- Destination details with highlights, duration, travel style, and popularity
+- Trending destinations dashboard built with DOM rendering
+- Recommendation engine using tags, popularity and budget similarity
+- Saved Trips CRUD powered by H2 database
+- Wishlist CRUD with priority/status
+- Destination comparison view
 - Analytics dashboard using Chart.js
 - Dark mode/light mode theme toggle
 - Responsive glassmorphism UI
@@ -116,8 +111,15 @@ movie-recommendation-system/
 - Add user authentication and personalized profiles
 - Improve voice search accuracy with a speech service fallback
 - Add infinite scrolling and lazy loading for search/trending results
-- Add movie quiz and mood-based recommendations
+- Add trip quiz and mood-based recommendations
 - Extend analytics to actor insights and watch history
 
 ## Notes
 This repository is GitHub-ready and designed for a direct Render deployment using `render.yaml`.
+- Destination search with images, region hints, popularity, budget, and overview
+- Destination details with highlights, duration, travel style, and popularity
+- Trending destinations dashboard built with DOM rendering
+- Recommendation engine using tags, popularity and budget similarity
+- Saved Trips CRUD powered by H2 database
+- Wishlist CRUD with priority/status
+- Destination comparison view

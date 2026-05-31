@@ -8,48 +8,43 @@ import java.util.*;
 public class AnalyticsService {
 
     public Map<String, Object> buildAnalytics(List<Map<String, Object>> trending) {
-        Map<String, Integer> genreDistribution = new HashMap<>();
-        Map<Integer, Integer> yearTrend = new TreeMap<>();
+        Map<String, Integer> tagDistribution = new HashMap<>();
+        Map<String, Integer> regionDistribution = new HashMap<>();
         List<Double> ratings = new ArrayList<>();
         List<Double> popularity = new ArrayList<>();
-        List<Map<String, Object>> topMovies = new ArrayList<>();
+        List<Map<String, Object>> topDestinations = new ArrayList<>();
 
-        for (Map<String, Object> movie : trending) {
-            Object genreList = movie.get("genres");
-            if (genreList instanceof List<?>) {
-                for (Object genre : (List<?>) genreList) {
-                    String genreName = genre.toString();
-                    genreDistribution.put(genreName, genreDistribution.getOrDefault(genreName, 0) + 1);
+        for (Map<String, Object> destination : trending) {
+            Object tagList = destination.get("tags");
+            if (tagList instanceof List<?>) {
+                for (Object tag : (List<?>) tagList) {
+                    String tagName = tag.toString();
+                    tagDistribution.put(tagName, tagDistribution.getOrDefault(tagName, 0) + 1);
                 }
             }
-            String releaseDate = (String) movie.getOrDefault("release_date", "0000");
-            if (releaseDate.length() >= 4) {
-                try {
-                    int year = Integer.parseInt(releaseDate.substring(0, 4));
-                    yearTrend.put(year, yearTrend.getOrDefault(year, 0) + 1);
-                } catch (NumberFormatException ignored) {
-                }
-            }
-            Number voteAvg = (Number) movie.getOrDefault("vote_average", 0);
-            Number pop = (Number) movie.getOrDefault("popularity", 0);
-            ratings.add(voteAvg.doubleValue());
+            String region = String.valueOf(destination.getOrDefault("region", "Unknown"));
+            regionDistribution.put(region, regionDistribution.getOrDefault(region, 0) + 1);
+            Number ratingValue = (Number) destination.getOrDefault("rating", 0);
+            Number pop = (Number) destination.getOrDefault("popularity", 0);
+            ratings.add(ratingValue.doubleValue());
             popularity.add(pop.doubleValue());
-            topMovies.add(Map.of(
-                    "title", movie.getOrDefault("title", "Unknown"),
-                    "rating", voteAvg.doubleValue(),
-                    "popularity", pop.doubleValue()
+            topDestinations.add(Map.of(
+                    "name", destination.getOrDefault("name", "Unknown"),
+                    "rating", ratingValue.doubleValue(),
+                    "popularity", pop.doubleValue(),
+                    "region", region
             ));
         }
 
-        topMovies.sort((a, b) -> Double.compare((Double) b.get("popularity"), (Double) a.get("popularity")));
-        List<Map<String, Object>> topFive = topMovies.size() > 5 ? topMovies.subList(0, 5) : topMovies;
+        topDestinations.sort((a, b) -> Double.compare((Double) b.get("popularity"), (Double) a.get("popularity")));
+        List<Map<String, Object>> topFive = topDestinations.size() > 5 ? topDestinations.subList(0, 5) : topDestinations;
 
         Map<String, Object> analytics = new HashMap<>();
-        analytics.put("genreDistribution", genreDistribution);
+        analytics.put("tagDistribution", tagDistribution);
+        analytics.put("regionDistribution", regionDistribution);
         analytics.put("ratingsHistogram", buildHistogram(ratings));
         analytics.put("popularity", popularity);
-        analytics.put("topMovies", topFive);
-        analytics.put("releaseYearTrend", yearTrend);
+        analytics.put("topDestinations", topFive);
         return analytics;
     }
 

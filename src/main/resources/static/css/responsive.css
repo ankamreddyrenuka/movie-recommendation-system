@@ -38,6 +38,7 @@
         align-items: stretch;
     }
 
+    .destination-card img,
     .movie-card img,
     .compare-card img {
         height: auto;

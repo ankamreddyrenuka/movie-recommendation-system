@@ -2,34 +2,35 @@ const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
 const searchResults = document.getElementById('searchResults');
 
-function renderSearchCard(movie) {
+function renderSearchResult(dest) {
     const card = document.createElement('article');
-    card.className = 'movie-card glass';
+    card.className = 'destination-card glass';
+    const img = dest.image_url || dest.imageUrl || 'https://via.placeholder.com/400x300?text=No+Image';
+    const name = dest.name || dest.title || 'Unknown';
+    const region = dest.region || dest.country || '';
+    const rating = dest.rating || dest.vote_average || 'N/A';
     card.innerHTML = `
-        <img src="${movie.poster_path || 'https://via.placeholder.com/400x600?text=No+Image'}" alt="${movie.title}">
+        <img src="${img}" alt="${name}">
         <div class="movie-card-content">
-            <h3>${movie.title}</h3>
-            <p>${movie.release_date || 'Unknown Release'}</p>
-            <p>${movie.overview?.substring(0, 110) || 'No description available'}...</p>
-            <div class="card-actions">
-                <span class="rating-pill">⭐ ${movie.vote_average || 'N/A'}</span>
-                <a class="card-button" href="/movie-details.html?id=${movie.id}">Details</a>
-            </div>
+            <h3>${name}</h3>
+            <p>${region}</p>
+            <div class="rating-pill">⭐ ${rating}</div>
+            <a class="card-button" href="/destination-details.html?id=${encodeURIComponent(dest.id || dest.destinationId || '')}">Details</a>
         </div>
     `;
     return card;
 }
 
-async function runSearch(query) {
-    searchResults.innerHTML = '<div class="loading-card">Searching movies...</div>';
+async function performSearch(query) {
+    searchResults.innerHTML = '<div class="loading-card">Searching destinations...</div>';
     try {
-        const results = await Api.searchMovies(query);
-        if (!results.length) {
-            searchResults.innerHTML = '<div class="empty-state">No movie results found.</div>';
+        const results = await Api.searchDestinations(query);
+        if (!results || !results.length) {
+            searchResults.innerHTML = '<div class="empty-state">No destinations found.</div>';
             return;
         }
         searchResults.innerHTML = '';
-        results.forEach(movie => searchResults.appendChild(renderSearchCard(movie)));
+        results.forEach(r => searchResults.appendChild(renderSearchResult(r)));
     } catch (error) {
         searchResults.innerHTML = `<div class="error-message">${error.message}</div>`;
     }
@@ -40,11 +41,11 @@ window.addEventListener('DOMContentLoaded', () => {
     const query = params.get('query') || '';
     if (query) {
         searchInput.value = query;
-        runSearch(query);
+        performSearch(query);
     }
     searchButton.addEventListener('click', () => {
         const q = searchInput.value.trim();
-        if (q) runSearch(q);
+        if (q) performSearch(q);
     });
     searchInput.addEventListener('keydown', event => {
         if (event.key === 'Enter') searchButton.click();

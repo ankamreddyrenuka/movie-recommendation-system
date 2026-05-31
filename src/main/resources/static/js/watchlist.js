@@ -1,20 +1,20 @@
-const watchlistItems = document.getElementById('watchlistItems');
-const saveWatchlist = document.getElementById('saveWatchlist');
+const wishlistItems = document.getElementById('watchlistItems');
+const saveWishlist = document.getElementById('saveWatchlist');
 
-function renderWatchlistCard(item) {
+function renderWishlistCard(item) {
     const card = document.createElement('article');
-    card.className = 'movie-card glass';
+    card.className = 'destination-card glass';
+    const img = item.imageUrl || item.image_url || 'https://via.placeholder.com/400x300?text=No+Image';
+    const name = item.name || item.title || 'Unknown';
     card.innerHTML = `
-        <img src="${item.posterPath || 'https://via.placeholder.com/400x600?text=No+Image'}" alt="${item.title}">
+        <img src="${img}" alt="${name}">
         <div class="movie-card-content">
-            <h3>${item.title}</h3>
-            <p>${item.status || 'No status'}</p>
+            <h3>${name}</h3>
+            <p>${item.notes || 'No notes'}</p>
             <div class="tag-row">
-                <span>${item.watched ? 'Watched' : 'Unwatched'}</span>
-                <span>${item.notes || 'No notes'}</span>
+                <span>${item.priority || 'Normal'}</span>
             </div>
             <div class="card-actions">
-                <button class="secondary-button" data-toggle="${item.id}">${item.watched ? 'Mark Unwatched' : 'Mark Watched'}</button>
                 <button class="secondary-button" data-delete="${item.id}">Remove</button>
             </div>
         </div>
@@ -22,51 +22,35 @@ function renderWatchlistCard(item) {
     return card;
 }
 
-async function refreshWatchlist() {
+async function refreshWishlist() {
     try {
-        const items = await Api.getWatchlist();
-        watchlistItems.innerHTML = '';
-        items.forEach(item => watchlistItems.appendChild(renderWatchlistCard(item)));
-        watchlistItems.querySelectorAll('[data-delete]').forEach(button => {
+        const items = await Api.getWishlist();
+        wishlistItems.innerHTML = '';
+        items.forEach(item => wishlistItems.appendChild(renderWishlistCard(item)));
+        wishlistItems.querySelectorAll('[data-delete]').forEach(button => {
             button.addEventListener('click', async () => {
-                await Api.deleteWatchlist(button.dataset.delete);
-                refreshWatchlist();
-            });
-        });
-        watchlistItems.querySelectorAll('[data-toggle]').forEach(button => {
-            button.addEventListener('click', async () => {
-                const id = button.dataset.toggle;
-                const item = items.find(w => String(w.id) === id);
-                await Api.updateWatchlist(id, {
-                    movieId: item.movieId,
-                    title: item.title,
-                    posterPath: item.posterPath,
-                    status: item.status,
-                    notes: item.notes,
-                    watched: !item.watched
-                });
-                refreshWatchlist();
+                await Api.deleteWishlist(button.dataset.delete);
+                refreshWishlist();
             });
         });
     } catch (error) {
-        watchlistItems.innerHTML = `<div class="error-message">${error.message}</div>`;
+        wishlistItems.innerHTML = `<div class="error-message">${error.message}</div>`;
     }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    refreshWatchlist();
-    saveWatchlist?.addEventListener('click', async () => {
+    refreshWishlist();
+    saveWishlist?.addEventListener('click', async () => {
         const payload = {
-            movieId: document.getElementById('watchlistMovieId').value.trim(),
-            title: document.getElementById('watchlistTitle').value.trim(),
-            posterPath: document.getElementById('watchlistPoster').value.trim(),
-            status: document.getElementById('watchlistStatus').value.trim() || 'To Watch',
+            destinationId: document.getElementById('watchlistDestinationId').value.trim(),
+            name: document.getElementById('watchlistTitle').value.trim(),
+            imageUrl: document.getElementById('watchlistPoster').value.trim(),
             notes: document.getElementById('watchlistNotes').value.trim(),
-            watched: false
+            priority: document.getElementById('watchlistStatus').value.trim() || 'Normal'
         };
         try {
-            await Api.addWatchlist(payload);
-            refreshWatchlist();
+            await Api.addWishlist(payload);
+            refreshWishlist();
         } catch (error) {
             alert(`Unable to save item: ${error.message}`);
         }

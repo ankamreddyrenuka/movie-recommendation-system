@@ -1,59 +1,60 @@
-const favoritesList = document.getElementById('favoritesList');
-const saveFavorite = document.getElementById('saveFavorite');
+const savedTripsList = document.getElementById('favoritesList');
+const saveSavedTrip = document.getElementById('saveFavorite');
 
-function renderFavoriteCard(movie) {
+function renderSavedTripCard(trip) {
     const card = document.createElement('article');
-    card.className = 'movie-card glass';
+    card.className = 'destination-card glass';
+    const img = trip.imageUrl || trip.image_url || 'https://via.placeholder.com/400x300?text=No+Image';
+    const name = trip.name || trip.title || 'Unknown';
+    const meta = trip.region || trip.country || '';
     card.innerHTML = `
-        <img src="${movie.posterPath || 'https://via.placeholder.com/400x600?text=No+Image'}" alt="${movie.title}">
+        <img src="${img}" alt="${name}">
         <div class="movie-card-content">
-            <h3>${movie.title}</h3>
-            <p>${movie.genres || 'Genres not set'}</p>
+            <h3>${name}</h3>
+            <p>${meta}</p>
             <div class="tag-row">
-                <span>⭐ ${movie.rating}</span>
-                <span>${movie.releaseDate || 'Unknown'}</span>
+                <span>⭐ ${trip.rating || 'N/A'}</span>
+                <span>${trip.recommendedDuration ? trip.recommendedDuration + ' days' : ''}</span>
             </div>
             <div class="card-actions">
-                <button class="secondary-button" data-delete="${movie.id}">Remove</button>
-                <a class="card-button" href="/movie-details.html?id=${movie.movieId}">Details</a>
+                <button class="secondary-button" data-delete="${trip.id}">Remove</button>
+                <a class="card-button" href="/destination-details.html?id=${trip.destinationId}">Details</a>
             </div>
         </div>
     `;
     return card;
 }
 
-async function refreshFavorites() {
+async function refreshSavedTrips() {
     try {
-        const favorites = await Api.getFavorites();
-        favoritesList.innerHTML = '';
-        favorites.forEach(movie => favoritesList.appendChild(renderFavoriteCard(movie)));
-        favoritesList.querySelectorAll('[data-delete]').forEach(button => {
+        const trips = await Api.getSavedTrips();
+        savedTripsList.innerHTML = '';
+        trips.forEach(trip => savedTripsList.appendChild(renderSavedTripCard(trip)));
+        savedTripsList.querySelectorAll('[data-delete]').forEach(button => {
             button.addEventListener('click', async () => {
-                await Api.deleteFavorite(button.dataset.delete);
-                refreshFavorites();
+                await Api.deleteSavedTrip(button.dataset.delete);
+                refreshSavedTrips();
             });
         });
     } catch (error) {
-        favoritesList.innerHTML = `<div class="error-message">${error.message}</div>`;
+        savedTripsList.innerHTML = `<div class="error-message">${error.message}</div>`;
     }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    refreshFavorites();
-    saveFavorite?.addEventListener('click', async () => {
+    refreshSavedTrips();
+    saveSavedTrip?.addEventListener('click', async () => {
         const payload = {
-            movieId: document.getElementById('favoriteMovieId').value.trim(),
-            title: document.getElementById('favoriteTitle').value.trim(),
-            posterPath: document.getElementById('favoritePoster').value.trim(),
-            genres: document.getElementById('favoriteGenres').value.trim(),
-            rating: parseFloat(document.getElementById('favoriteRating').value) || 0,
-            releaseDate: document.getElementById('favoriteRelease').value.trim()
+            destinationId: document.getElementById('favoriteDestinationId').value.trim(),
+            name: document.getElementById('favoriteTitle').value.trim(),
+            imageUrl: document.getElementById('favoritePoster').value.trim(),
+            notes: document.getElementById('favoriteGenres').value.trim(),
         };
         try {
-            await Api.addFavorite(payload);
-            refreshFavorites();
+            await Api.addSavedTrip(payload);
+            refreshSavedTrips();
         } catch (error) {
-            alert(`Unable to save favorite: ${error.message}`);
+            alert(`Unable to save trip: ${error.message}`);
         }
     });
 });

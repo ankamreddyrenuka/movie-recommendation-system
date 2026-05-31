@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineMatch AI | Analytics</title>
+    <title>TravelDNA | Analytics</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/responsive.css">
@@ -12,14 +12,14 @@
 <body>
 <div class="page-shell">
     <header class="topbar glass">
-        <div class="brand">CineMatch AI</div>
+        <div class="brand">TravelDNA</div>
         <nav class="nav-links">
             <a href="/index.html">Home</a>
             <a href="/search.html">Search</a>
             <a href="/recommendations.html">Recommendations</a>
             <a href="/analytics.html">Analytics</a>
-            <a href="/favorites.html">Favorites</a>
-            <a href="/watchlist.html">Watchlist</a>
+            <a href="/favorites.html">Saved Trips</a>
+            <a href="/watchlist.html">Wishlist</a>
             <a href="/compare.html">Compare</a>
         </nav>
         <button id="themeToggle" class="theme-button">Dark</button>
@@ -28,17 +28,17 @@
     <main>
         <section class="page-header glass">
             <div>
-                <h1>Analytics Dashboard</h1>
-                <p>Interactive charts that visualize ratings, genres, popularity, and release year trends.</p>
+                <h1>Travel Analytics</h1>
+                <p>Interactive charts that visualize tags, ratings, popularity, and region trends.</p>
             </div>
         </section>
 
         <section class="dashboard-grid">
-            <div class="widget glass"><h3>Genre Distribution</h3><canvas id="genreChart"></canvas></div>
+            <div class="widget glass"><h3>Tag Distribution</h3><canvas id="genreChart"></canvas></div>
             <div class="widget glass"><h3>Ratings Histogram</h3><canvas id="ratingsChart"></canvas></div>
             <div class="widget glass"><h3>Popularity Overview</h3><canvas id="popularityChart"></canvas></div>
-            <div class="widget glass"><h3>Top Movies</h3><canvas id="topMoviesChart"></canvas></div>
-            <div class="widget full glass"><h3>Release Year Trend</h3><canvas id="yearTrendChart"></canvas></div>
+            <div class="widget glass"><h3>Top Destinations</h3><canvas id="topMoviesChart"></canvas></div>
+            <div class="widget full glass"><h3>Region Trend</h3><canvas id="yearTrendChart"></canvas></div>
         </section>
     </main>
 </div>

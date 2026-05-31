@@ -1,9 +1,9 @@
 package com.cinematchai.repository;
 
-import com.cinematchai.model.WatchlistMovie;
+import com.cinematchai.model.WishlistDestination;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface WatchlistRepository extends JpaRepository<WatchlistMovie, Long> {
+public interface WishlistDestinationRepository extends JpaRepository<WishlistDestination, Long> {
 }
