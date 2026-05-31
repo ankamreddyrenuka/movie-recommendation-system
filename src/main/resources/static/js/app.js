@@ -4,28 +4,26 @@ const homeSearchInput = document.getElementById('homeSearchInput');
 const voiceSearchButton = document.getElementById('voiceSearchButton');
 
 function renderDestinationCard(destination) {
-    // Adapted to destination summary fields (supports both snake_case and camelCase)
     const card = document.createElement('article');
     card.className = 'destination-card glass';
 
-    const img =
-        destination.image_url ||
-        destination.imageUrl ||
-        'https://via.placeholder.com/400x300?text=No+Image';
-
+    const img = destination.image_url || destination.imageUrl || 'https://via.placeholder.com/400x300?text=No+Image';
     const name = destination.name || destination.title || 'Unknown';
-    const region = destination.region || destination.country || '';
     const rating = destination.rating || destination.vote_average || 'N/A';
+    const category = destination.category || destination.travel_style || 'Destination';
+    const district = destination.district || destination.region || '';
+    const cost = destination.avg_cost_per_day ? `₹${destination.avg_cost_per_day}/day` : '';
 
     card.innerHTML = `
         <img src="${img}" alt="${name}">
         <div class="destination-card-content">
             <h3>${name}</h3>
-            <p>${region}</p>
-            <div class="rating-pill">⭐ ${rating}</div>
-            <a class="card-button" href="/destination-details.html?id=${encodeURIComponent(
-                destination.id || destination.destinationId || ''
-            )}">Details</a>
+            <p>${category} · ${district}</p>
+            <div class="rating-row">
+                <span class="rating-pill">⭐ ${rating}</span>
+                <span class="cost-pill">${cost}</span>
+            </div>
+            <a class="card-button" href="/destination-details.html?id=${encodeURIComponent(destination.id || destination.destinationId || '')}">Details</a>
         </div>
     `;
 
@@ -40,10 +38,7 @@ async function loadTrending() {
     try {
         const trending = await Api.getTrending();
         container.innerHTML = '';
-        trending
-            .slice(0, 12)
-            .forEach(destination => container.appendChild(renderDestinationCard(destination)));
-
+        trending.slice(0, 12).forEach(destination => container.appendChild(renderDestinationCard(destination)));
     } catch (error) {
         container.innerHTML = `<div class="error-message">Unable to load trending destinations. ${error.message}</div>`;
     }
@@ -95,9 +90,7 @@ function parseQueryString() {
 
 async function renderDestinationDetails() {
     const detailsContainer = document.getElementById('destinationDetails');
-
     if (!detailsContainer) return;
-
 
     const params = parseQueryString();
     const id = params.id;
@@ -108,7 +101,6 @@ async function renderDestinationDetails() {
     }
 
     detailsContainer.innerHTML = '<div class="loading-card">Loading destination details...</div>';
-
     try {
         const dest = await Api.getDestination(id);
         detailsContainer.innerHTML = `
@@ -118,16 +110,19 @@ async function renderDestinationDetails() {
                     <h1>${dest.name}</h1>
                     <p>${dest.description || 'No description available.'}</p>
                     <div class="tag-row">
-                        <span>${dest.region || dest.country || 'Unknown'}</span>
-                        <span>⭐ ${dest.rating || 'N/A'}</span>
-                        <span>${dest.recommendedDuration ? dest.recommendedDuration + ' days' : ''}</span>
+                        <span>${dest.category || dest.travelStyle || 'Unknown'}</span>
+                        <span>${dest.district || dest.region || 'Andhra Pradesh'}</span>
+                        <span>${dest.bestSeason ? dest.bestSeason + ' season' : ''}</span>
                     </div>
                     <div class="detail-meta">
-                        <p><strong>Travel style:</strong> ${dest.travelStyle || 'N/A'}</p>
-                        <p><strong>Budget:</strong> ${dest.budgetRange || 'N/A'}</p>
+                        <p><strong>Address:</strong> ${dest.address || 'N/A'}</p>
+                        <p><strong>Budget:</strong> ${dest.budgetLevel || dest.budgetRange || 'N/A'}</p>
+                        <p><strong>Suggested stay:</strong> ${dest.tripDuration ? dest.tripDuration + ' days' : 'N/A'}</p>
+                        <p><strong>Estimated cost:</strong> ${dest.avgCostPerDay ? '₹' + dest.avgCostPerDay + '/day' : 'N/A'}</p>
+                        <p><strong>Monthly visitors:</strong> ${dest.monthlyVisitors || 'N/A'}</p>
                         <p><strong>Highlights:</strong> ${dest.highlights || 'N/A'}</p>
                     </div>
-                    <a class="primary-button" href="/" target="_self">Plan Trip</a>
+                    <a class="primary-button" href="/search.html" target="_self">Explore More</a>
                 </div>
             </div>
         `;

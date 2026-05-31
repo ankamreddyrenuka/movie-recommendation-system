@@ -12,7 +12,11 @@ public interface DestinationRepository extends JpaRepository<DestinationEntity, 
     Optional<DestinationEntity> findFirstByDestinationId(String destinationId);
     List<DestinationEntity> findByNameContainingIgnoreCase(String name);
     List<DestinationEntity> findByRegionContainingIgnoreCase(String region);
+    List<DestinationEntity> findByDistrictContainingIgnoreCase(String district);
+    List<DestinationEntity> findByCategoryContainingIgnoreCase(String category);
     List<DestinationEntity> findByTravelStyleContainingIgnoreCase(String travelStyle);
     List<DestinationEntity> findByTagsContainingIgnoreCase(String tag);
+    List<DestinationEntity> findByBudgetLevelContainingIgnoreCase(String budgetLevel);
+    List<DestinationEntity> findByBestSeasonContainingIgnoreCase(String bestSeason);
     List<DestinationEntity> findByBudgetRangeContainingIgnoreCase(String budgetRange);
 }

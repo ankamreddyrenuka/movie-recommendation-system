@@ -18,17 +18,33 @@ public class TravelController {
         this.travelService = travelService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<Map<String, Object>>> getAllDestinations() {
+        return ResponseEntity.ok(travelService.getAllDestinations());
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<Map<String, Object>>> getByCategory(@PathVariable String category) {
+        return ResponseEntity.ok(travelService.getDestinationsByCategory(category));
+    }
+
+    @GetMapping("/district/{district}")
+    public ResponseEntity<List<Map<String, Object>>> getByDistrict(@PathVariable String district) {
+        return ResponseEntity.ok(travelService.getDestinationsByDistrict(district));
+    }
+
     @GetMapping("/search")
     public ResponseEntity<List<Map<String, Object>>> searchDestinations(
             @RequestParam(name = "query", required = false) String query,
-            @RequestParam(name = "region", required = false) String region,
-            @RequestParam(name = "style", required = false) String style,
+            @RequestParam(name = "category", required = false) String category,
+            @RequestParam(name = "district", required = false) String district,
             @RequestParam(name = "budget", required = false) String budget,
+            @RequestParam(name = "season", required = false) String season,
             @RequestParam(name = "minRating", required = false) Double minRating,
             @RequestParam(name = "durationFrom", required = false) Integer durationFrom,
             @RequestParam(name = "durationTo", required = false) Integer durationTo
     ) {
-        return ResponseEntity.ok(travelService.searchDestinations(query, region, style, budget, minRating, durationFrom, durationTo));
+        return ResponseEntity.ok(travelService.searchDestinations(query, category, district, budget, season, minRating, durationFrom, durationTo));
     }
 
     @GetMapping("/{id}")

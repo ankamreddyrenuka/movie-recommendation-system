@@ -28,15 +28,61 @@
         <section class="page-header glass">
             <div>
                 <h1>Destination Search</h1>
-                <p>Find destinations by name and explore details.</p>
+                <p>Filter Andhra Pradesh destinations by category, district, season, and budget.</p>
             </div>
-            <div class="search-box wide">
-                <input id="searchInput" type="text" placeholder="Type a destination name..." autofocus>
-                <button id="searchButton" class="primary-button">Search</button>
+            <div class="search-panel glass">
+                <div class="search-grid">
+                    <input id="searchInput" type="text" placeholder="Search destinations, categories, or locations..." autofocus>
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="Hill Station">Hill Station</option>
+                        <option value="Nature Tourism">Nature Tourism</option>
+                        <option value="Beach Tourism">Beach Tourism</option>
+                        <option value="Temple Tourism">Temple Tourism</option>
+                        <option value="Historical Sites">Historical Sites</option>
+                        <option value="Adventure Tourism">Adventure Tourism</option>
+                    </select>
+                    <select id="districtFilter">
+                        <option value="">All Districts</option>
+                        <option value="Visakhapatnam">Visakhapatnam</option>
+                        <option value="Tirupati">Tirupati</option>
+                        <option value="Nandyal">Nandyal</option>
+                        <option value="Kakinada">Kakinada</option>
+                        <option value="Nellore">Nellore</option>
+                        <option value="Kadapa">Kadapa</option>
+                        <option value="Alluri Sitharama Raju">Alluri Sitharama Raju</option>
+                        <option value="Anantapur">Anantapur</option>
+                        <option value="Krishna">Krishna</option>
+                        <option value="Guntur">Guntur</option>
+                    </select>
+                    <select id="budgetFilter">
+                        <option value="">All Budgets</option>
+                        <option value="Budget">Budget</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Luxury">Luxury</option>
+                    </select>
+                    <select id="seasonFilter">
+                        <option value="">All Seasons</option>
+                        <option value="Winter">Winter</option>
+                        <option value="Summer">Summer</option>
+                        <option value="All Seasons">All Seasons</option>
+                    </select>
+                    <select id="ratingFilter">
+                        <option value="">Any Rating</option>
+                        <option value="4.0">4.0+</option>
+                        <option value="4.4">4.4+</option>
+                        <option value="4.6">4.6+</option>
+                        <option value="4.8">4.8+</option>
+                    </select>
+                    <input id="durationFrom" type="number" min="1" placeholder="Min days">
+                    <input id="durationTo" type="number" min="1" placeholder="Max days">
+                    <button id="searchButton" class="primary-button">Search</button>
+                </div>
             </div>
         </section>
 
         <section id="searchResults" class="results-grid"></section>
+        <section id="paginationControls" class="pagination"></section>
     </main>
 </div>
 <script src="js/api.js"></script>

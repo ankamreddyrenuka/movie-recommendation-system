@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-o8OySphK0v4s74bGx6zXwyuF1rYhXtq0tP5uwr8m2XY=" crossorigin="" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-QV8+M9c1A48slJ9wTgYl5cm3X7qQ1jV+lSgRk0Z+R3U=" crossorigin=""></script>
 </head>
 <body>
 <div class="page-shell">
@@ -28,17 +30,32 @@
     <main>
         <section class="page-header glass">
             <div>
-                <h1>Travel Analytics</h1>
-                <p>Interactive charts that visualize tags, ratings, popularity, and region trends.</p>
+                <h1>Andhra Pradesh Tourism Analytics</h1>
+                <p>Explore destination demand, travel patterns, and visitor insights for Andhra Pradesh.</p>
             </div>
         </section>
 
-        <section class="dashboard-grid">
-<div class="widget glass"><h3>Interest Distribution</h3><canvas id="genreChart"></canvas></div>
-<div class="widget glass"><h3>Trip Duration Analysis</h3><canvas id="ratingsChart"></canvas></div>
-<h3>Country Distribution</h3>
-<canvas id="topDestinationsChart"></canvas>
-            <div class="widget full glass"><h3>Region Trend</h3><canvas id="yearTrendChart"></canvas></div>
+        <section class="summary-grid" id="summaryGrid"></section>
+
+        <section class="analytics-grid">
+            <div class="analytics-left">
+                <div class="widget glass"><h3>Category Distribution</h3><canvas id="categoryChart"></canvas></div>
+                <div class="widget glass"><h3>Trip Duration</h3><canvas id="durationChart"></canvas></div>
+                <div class="widget glass"><h3>Average Ratings</h3><canvas id="ratingChart"></canvas></div>
+                <div class="widget glass"><h3>Budget Breakdown</h3><canvas id="budgetChart"></canvas></div>
+                <div class="widget glass"><h3>Top Monthly Visitors</h3><canvas id="visitorsChart"></canvas></div>
+                <div class="widget glass map-card"><h3>Destination Map</h3><div id="apMap"></div></div>
+            </div>
+            <aside class="analytics-sidebar">
+                <div class="widget glass">
+                    <h3>What We Learned</h3>
+                    <ul id="insightsList" class="insights-list"></ul>
+                </div>
+                <div class="widget glass">
+                    <h3>Top Trending Destinations</h3>
+                    <div id="topTrendingList" class="ranking-list"></div>
+                </div>
+            </aside>
         </section>
     </main>
 </div>

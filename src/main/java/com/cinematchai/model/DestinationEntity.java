@@ -17,24 +17,30 @@ public class DestinationEntity {
     private String backdropUrl;
     private String region;
     private String country;
+    private String district;
+    @Column(length = 1000)
+    private String address;
+    private String category;
     @Column(length = 1000)
     private String tags;
     private String bestTimeToVisit;
     private String travelStyle;
+    private String budgetLevel;
     private String budgetRange;
+    private int tripDuration;
     private int recommendedDuration;
+    private String bestSeason;
+    private double avgCostPerDay;
+    private int monthlyVisitors;
     private double rating;
     private double popularity;
-
     private Double latitude;
     private Double longitude;
-
     @Column(length = 1200)
     private String highlights;
 
     public DestinationEntity() {
     }
-
 
     public Long getId() {
         return id;
@@ -100,6 +106,30 @@ public class DestinationEntity {
         this.country = country;
     }
 
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public String getTags() {
         return tags;
     }
@@ -124,6 +154,14 @@ public class DestinationEntity {
         this.travelStyle = travelStyle;
     }
 
+    public String getBudgetLevel() {
+        return budgetLevel;
+    }
+
+    public void setBudgetLevel(String budgetLevel) {
+        this.budgetLevel = budgetLevel;
+    }
+
     public String getBudgetRange() {
         return budgetRange;
     }
@@ -132,12 +170,44 @@ public class DestinationEntity {
         this.budgetRange = budgetRange;
     }
 
+    public int getTripDuration() {
+        return tripDuration;
+    }
+
+    public void setTripDuration(int tripDuration) {
+        this.tripDuration = tripDuration;
+    }
+
     public int getRecommendedDuration() {
         return recommendedDuration;
     }
 
     public void setRecommendedDuration(int recommendedDuration) {
         this.recommendedDuration = recommendedDuration;
+    }
+
+    public String getBestSeason() {
+        return bestSeason;
+    }
+
+    public void setBestSeason(String bestSeason) {
+        this.bestSeason = bestSeason;
+    }
+
+    public double getAvgCostPerDay() {
+        return avgCostPerDay;
+    }
+
+    public void setAvgCostPerDay(double avgCostPerDay) {
+        this.avgCostPerDay = avgCostPerDay;
+    }
+
+    public int getMonthlyVisitors() {
+        return monthlyVisitors;
+    }
+
+    public void setMonthlyVisitors(int monthlyVisitors) {
+        this.monthlyVisitors = monthlyVisitors;
     }
 
     public double getRating() {
@@ -175,7 +245,6 @@ public class DestinationEntity {
     public String getHighlights() {
         return highlights;
     }
-
 
     public void setHighlights(String highlights) {
         this.highlights = highlights;

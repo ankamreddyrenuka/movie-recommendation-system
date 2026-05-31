@@ -17,6 +17,24 @@ public class TravelService {
         this.destinationRepository = destinationRepository;
     }
 
+    public List<Map<String, Object>> getAllDestinations() {
+        return destinationRepository.findAll().stream()
+                .map(this::entityToSummary)
+                .collect(Collectors.toList());
+    }
+
+    public List<Map<String, Object>> getDestinationsByCategory(String category) {
+        return destinationRepository.findByCategoryContainingIgnoreCase(category).stream()
+                .map(this::entityToSummary)
+                .collect(Collectors.toList());
+    }
+
+    public List<Map<String, Object>> getDestinationsByDistrict(String district) {
+        return destinationRepository.findByDistrictContainingIgnoreCase(district).stream()
+                .map(this::entityToSummary)
+                .collect(Collectors.toList());
+    }
+
     public List<Map<String, Object>> getTrendingDestinations() {
         return destinationRepository.findAll().stream()
                 .sorted(Comparator.comparingDouble(DestinationEntity::getPopularity).reversed())
@@ -33,24 +51,25 @@ public class TravelService {
                 .collect(Collectors.toList());
     }
 
-    public List<Map<String, Object>> searchDestinations(String query, String region, String style, String budget, Double minRating, Integer durationFrom, Integer durationTo) {
+    public List<Map<String, Object>> searchDestinations(String query, String category, String district, String budget,
+                                                        String season, Double minRating, Integer durationFrom, Integer durationTo) {
         Set<Map<String, Object>> results = new LinkedHashSet<>();
         if (query != null && !query.isBlank()) {
             results.addAll(destinationRepository.findByNameContainingIgnoreCase(query).stream().map(this::entityToSummary).collect(Collectors.toList()));
-            results.addAll(destinationRepository.findByRegionContainingIgnoreCase(query).stream().map(this::entityToSummary).collect(Collectors.toList()));
-            results.addAll(destinationRepository.findByTravelStyleContainingIgnoreCase(query).stream().map(this::entityToSummary).collect(Collectors.toList()));
+            results.addAll(destinationRepository.findByDistrictContainingIgnoreCase(query).stream().map(this::entityToSummary).collect(Collectors.toList()));
+            results.addAll(destinationRepository.findByCategoryContainingIgnoreCase(query).stream().map(this::entityToSummary).collect(Collectors.toList()));
             results.addAll(destinationRepository.findByTagsContainingIgnoreCase(query).stream().map(this::entityToSummary).collect(Collectors.toList()));
         } else {
             results.addAll(destinationRepository.findAll().stream().map(this::entityToSummary).collect(Collectors.toList()));
         }
 
         return results.stream()
-                .filter(destination -> filterByRegion(destination, region))
-                .filter(destination -> filterByStyle(destination, style))
+                .filter(destination -> filterByCategory(destination, category))
+                .filter(destination -> filterByDistrict(destination, district))
                 .filter(destination -> filterByBudget(destination, budget))
+                .filter(destination -> filterBySeason(destination, season))
                 .filter(destination -> filterByRating(destination, minRating))
                 .filter(destination -> filterByDuration(destination, durationFrom, durationTo))
-                .limit(60)
                 .collect(Collectors.toList());
     }
 
@@ -76,25 +95,32 @@ public class TravelService {
         return Map.of("first", first, "second", second);
     }
 
-    private boolean filterByRegion(Map<String, Object> destination, String region) {
-        if (region == null || region.isBlank()) {
+    private boolean filterByCategory(Map<String, Object> destination, String category) {
+        if (category == null || category.isBlank()) {
             return true;
         }
-        return String.valueOf(destination.getOrDefault("region", "")).toLowerCase().contains(region.toLowerCase());
+        return String.valueOf(destination.getOrDefault("category", "")).toLowerCase().contains(category.toLowerCase());
     }
 
-    private boolean filterByStyle(Map<String, Object> destination, String style) {
-        if (style == null || style.isBlank()) {
+    private boolean filterByDistrict(Map<String, Object> destination, String district) {
+        if (district == null || district.isBlank()) {
             return true;
         }
-        return String.valueOf(destination.getOrDefault("travel_style", "")).toLowerCase().contains(style.toLowerCase());
+        return String.valueOf(destination.getOrDefault("district", "")).toLowerCase().contains(district.toLowerCase());
     }
 
     private boolean filterByBudget(Map<String, Object> destination, String budget) {
         if (budget == null || budget.isBlank()) {
             return true;
         }
-        return String.valueOf(destination.getOrDefault("budget_range", "")).toLowerCase().contains(budget.toLowerCase());
+        return String.valueOf(destination.getOrDefault("budget_level", destination.getOrDefault("budget_range", ""))).toLowerCase().contains(budget.toLowerCase());
+    }
+
+    private boolean filterBySeason(Map<String, Object> destination, String season) {
+        if (season == null || season.isBlank()) {
+            return true;
+        }
+        return String.valueOf(destination.getOrDefault("best_season", "")).toLowerCase().contains(season.toLowerCase());
     }
 
     private boolean filterByRating(Map<String, Object> destination, Double minRating) {
@@ -116,7 +142,7 @@ public class TravelService {
         if (durationFrom == null && durationTo == null) {
             return true;
         }
-        Object duration = destination.get("duration_days");
+        Object duration = destination.get("trip_duration");
         if (duration instanceof Number) {
             int days = ((Number) duration).intValue();
             if (durationFrom != null && days < durationFrom) {
@@ -150,11 +176,19 @@ public class TravelService {
         response.setBackdropUrl(entity.getBackdropUrl());
         response.setRegion(entity.getRegion());
         response.setCountry(entity.getCountry());
+        response.setDistrict(entity.getDistrict());
+        response.setAddress(entity.getAddress());
+        response.setCategory(entity.getCategory());
         response.setTags(splitCsv(entity.getTags()));
         response.setBestTimeToVisit(entity.getBestTimeToVisit());
         response.setTravelStyle(entity.getTravelStyle());
+        response.setBudgetLevel(entity.getBudgetLevel());
         response.setBudgetRange(entity.getBudgetRange());
+        response.setTripDuration(entity.getTripDuration());
         response.setRecommendedDuration(entity.getRecommendedDuration());
+        response.setBestSeason(entity.getBestSeason());
+        response.setAvgCostPerDay(entity.getAvgCostPerDay());
+        response.setMonthlyVisitors(entity.getMonthlyVisitors());
         response.setRating(entity.getRating());
         response.setPopularity(entity.getPopularity());
         response.setHighlights(entity.getHighlights());
@@ -170,11 +204,19 @@ public class TravelService {
                 Map.entry("backdrop_url", entity.getBackdropUrl()),
                 Map.entry("region", entity.getRegion()),
                 Map.entry("country", entity.getCountry()),
+                Map.entry("district", entity.getDistrict()),
+                Map.entry("address", entity.getAddress()),
+                Map.entry("category", entity.getCategory()),
                 Map.entry("tags", splitCsv(entity.getTags())),
                 Map.entry("best_time", entity.getBestTimeToVisit()),
                 Map.entry("travel_style", entity.getTravelStyle()),
+                Map.entry("budget_level", entity.getBudgetLevel()),
                 Map.entry("budget_range", entity.getBudgetRange()),
-                Map.entry("duration_days", entity.getRecommendedDuration()),
+                Map.entry("trip_duration", entity.getTripDuration()),
+                Map.entry("recommended_duration", entity.getRecommendedDuration()),
+                Map.entry("best_season", entity.getBestSeason()),
+                Map.entry("avg_cost_per_day", entity.getAvgCostPerDay()),
+                Map.entry("monthly_visitors", entity.getMonthlyVisitors()),
                 Map.entry("rating", entity.getRating()),
                 Map.entry("popularity", entity.getPopularity()),
                 Map.entry("highlights", entity.getHighlights())
