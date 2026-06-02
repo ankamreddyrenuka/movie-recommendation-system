@@ -30,12 +30,12 @@ public class SavedTripsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SavedTrip> updateSavedTrip(@PathVariable Long id, @Valid @RequestBody SavedTripDTO dto) {
+    public ResponseEntity<SavedTrip> updateSavedTrip(@PathVariable("id") Long id, @Valid @RequestBody SavedTripDTO dto) {
         return ResponseEntity.ok(savedTripsService.updateSavedTrip(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSavedTrip(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteSavedTrip(@PathVariable("id") Long id) {
         savedTripsService.deleteSavedTrip(id);
         return ResponseEntity.noContent().build();
     }

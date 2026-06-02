@@ -30,12 +30,12 @@ public class WishlistController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<WishlistDestination> updateWishlist(@PathVariable Long id, @Valid @RequestBody WishlistDestinationDTO dto) {
+    public ResponseEntity<WishlistDestination> updateWishlist(@PathVariable("id") Long id, @Valid @RequestBody WishlistDestinationDTO dto) {
         return ResponseEntity.ok(wishlistService.updateWishlist(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteWishlist(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteWishlist(@PathVariable("id") Long id) {
         wishlistService.deleteWishlist(id);
         return ResponseEntity.noContent().build();
     }

@@ -21,7 +21,7 @@ public class TripRecommendationController {
     }
 
     @GetMapping("/recommendations/{destinationId}")
-    public ResponseEntity<List<TripRecommendationResponse>> getRecommendations(@PathVariable String destinationId) {
+    public ResponseEntity<List<TripRecommendationResponse>> getRecommendations(@PathVariable("destinationId") String destinationId) {
         return ResponseEntity.ok(tripPlannerService.recommend(destinationId));
     }
 }

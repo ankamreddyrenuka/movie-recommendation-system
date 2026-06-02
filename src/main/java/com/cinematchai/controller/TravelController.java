@@ -24,12 +24,12 @@ public class TravelController {
     }
 
     @GetMapping("/category/{category}")
-    public ResponseEntity<List<Map<String, Object>>> getByCategory(@PathVariable String category) {
+    public ResponseEntity<List<Map<String, Object>>> getByCategory(@PathVariable("category") String category) {
         return ResponseEntity.ok(travelService.getDestinationsByCategory(category));
     }
 
     @GetMapping("/district/{district}")
-    public ResponseEntity<List<Map<String, Object>>> getByDistrict(@PathVariable String district) {
+    public ResponseEntity<List<Map<String, Object>>> getByDistrict(@PathVariable("district") String district) {
         return ResponseEntity.ok(travelService.getDestinationsByDistrict(district));
     }
 
@@ -48,7 +48,7 @@ public class TravelController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DestinationResponse> getDestinationDetails(@PathVariable String id) {
+    public ResponseEntity<DestinationResponse> getDestinationDetails(@PathVariable("id") String id) {
         return travelService.getDestinationDetails(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
