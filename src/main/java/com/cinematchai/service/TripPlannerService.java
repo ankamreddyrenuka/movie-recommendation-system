@@ -25,10 +25,11 @@ public class TripPlannerService {
         if (trending.isEmpty()) {
             return List.of();
         }
-        DestinationResponse source = travelService.getDestinationDetails(destinationId);
-        if (source == null) {
+        var sourceOptional = travelService.getDestinationDetails(destinationId);
+        if (sourceOptional.isEmpty()) {
             return List.of();
         }
+        DestinationResponse source = sourceOptional.get();
         return trending.stream()
                 .filter(destination -> !String.valueOf(destination.get("id")).equals(destinationId))
                 .map(destination -> scoreRecommendation(source, destination))

@@ -9,15 +9,29 @@ public class WishlistDestination {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "destination_id", nullable = false)
     private String destinationId;
+
+    @Column(name = "destination_name", nullable = false)
     private String destinationName;
+
+    @Column(name = "image_url")
     private String imageUrl;
+
+    @Column(name = "region")
     private String region;
+
+    @Column(name = "preferred_season")
     private String preferredSeason;
+
+    @Column(name = "budget_category")
     private String budgetCategory;
-    @Column(length = 1000)
+
+    @Column(name = "desired_activities", length = 1000)
     private String desiredActivities;
-    @Column(length = 2000)
+
+    @Column(name = "notes", length = 2000)
     private String notes;
 
     public WishlistDestination() {

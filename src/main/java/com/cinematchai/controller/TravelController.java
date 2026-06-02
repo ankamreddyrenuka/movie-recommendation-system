@@ -49,8 +49,9 @@ public class TravelController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DestinationResponse> getDestinationDetails(@PathVariable String id) {
-        DestinationResponse destination = travelService.getDestinationDetails(id);
-        return ResponseEntity.ok(destination);
+        return travelService.getDestinationDetails(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/trending")

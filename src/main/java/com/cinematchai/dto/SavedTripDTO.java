@@ -21,6 +21,7 @@ public class SavedTripDTO {
 
     private String status;
     private String budgetRange;
+    private String savedDate;
     private String notes;
 
     public Long getId() {
@@ -93,6 +94,14 @@ public class SavedTripDTO {
 
     public void setBudgetRange(String budgetRange) {
         this.budgetRange = budgetRange;
+    }
+
+    public String getSavedDate() {
+        return savedDate;
+    }
+
+    public void setSavedDate(String savedDate) {
+        this.savedDate = savedDate;
     }
 
     public String getNotes() {

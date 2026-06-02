@@ -9,15 +9,35 @@ public class SavedTrip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "destination_id", nullable = false)
     private String destinationId;
+
+    @Column(name = "destination_name", nullable = false)
     private String destinationName;
+
+    @Column(name = "image_url")
     private String imageUrl;
+
+    @Column(name = "region")
     private String region;
+
+    @Column(name = "travel_dates")
     private String travelDates;
+
+    @Column(name = "travelers")
     private int travelers;
+
+    @Column(name = "status")
     private String status;
+
+    @Column(name = "budget_range")
     private String budgetRange;
-    @Column(length = 2000)
+
+    @Column(name = "saved_date")
+    private java.time.LocalDate savedDate;
+
+    @Column(name = "notes", length = 2000)
     private String notes;
 
     public SavedTrip() {
@@ -93,6 +113,14 @@ public class SavedTrip {
 
     public void setBudgetRange(String budgetRange) {
         this.budgetRange = budgetRange;
+    }
+
+    public java.time.LocalDate getSavedDate() {
+        return savedDate;
+    }
+
+    public void setSavedDate(java.time.LocalDate savedDate) {
+        this.savedDate = savedDate;
     }
 
     public String getNotes() {

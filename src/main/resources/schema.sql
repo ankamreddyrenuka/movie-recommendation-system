@@ -26,3 +26,29 @@ CREATE TABLE IF NOT EXISTS destinations (
   longitude DOUBLE,
   highlights VARCHAR(1200)
 );
+
+CREATE TABLE IF NOT EXISTS wishlist_destinations (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  destination_id VARCHAR(80) NOT NULL,
+  destination_name VARCHAR(255) NOT NULL,
+  image_url VARCHAR(1024),
+  region VARCHAR(120),
+  preferred_season VARCHAR(120),
+  budget_category VARCHAR(80),
+  desired_activities VARCHAR(1000),
+  notes VARCHAR(2000)
+);
+
+CREATE TABLE IF NOT EXISTS saved_trips (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  destination_id VARCHAR(80) NOT NULL,
+  destination_name VARCHAR(255) NOT NULL,
+  image_url VARCHAR(1024),
+  region VARCHAR(120),
+  travel_dates VARCHAR(120),
+  travelers INT,
+  status VARCHAR(120),
+  budget_range VARCHAR(80),
+  saved_date DATE,
+  notes VARCHAR(2000)
+);

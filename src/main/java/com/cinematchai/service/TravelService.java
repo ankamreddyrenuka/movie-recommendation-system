@@ -83,16 +83,22 @@ public class TravelService {
                 .collect(Collectors.toList());
     }
 
-    public DestinationResponse getDestinationDetails(String destinationId) {
+    public Optional<DestinationResponse> getDestinationDetails(String destinationId) {
         return destinationRepository.findFirstByDestinationId(destinationId)
-                .map(this::entityToResponse)
-                .orElse(null);
+                .map(this::entityToResponse);
     }
 
-    public Map<String, Object> getComparison(String firstDestinationId, String secondDestinationId) {
-        DestinationResponse first = getDestinationDetails(firstDestinationId);
-        DestinationResponse second = getDestinationDetails(secondDestinationId);
-        return Map.of("first", first, "second", second);
+    public List<DestinationResponse> compareDestinations(List<String> destinationIds) {
+        if (destinationIds == null) {
+            return Collections.emptyList();
+        }
+        return destinationIds.stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(id -> !id.isBlank())
+                .map(this::getDestinationDetails)
+                .flatMap(Optional::stream)
+                .collect(Collectors.toList());
     }
 
     private boolean filterByCategory(Map<String, Object> destination, String category) {
@@ -191,6 +197,11 @@ public class TravelService {
         response.setMonthlyVisitors(entity.getMonthlyVisitors());
         response.setRating(entity.getRating());
         response.setPopularity(entity.getPopularity());
+        response.setLatitude(entity.getLatitude());
+        response.setLongitude(entity.getLongitude());
+        if (entity.getLatitude() != null && entity.getLongitude() != null) {
+            response.setGoogleMapsUrl("https://www.google.com/maps/search/?api=1&query=" + entity.getLatitude() + "," + entity.getLongitude());
+        }
         response.setHighlights(entity.getHighlights());
         return response;
     }
